@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+csp_violations.log
+vendor/
+composer.phar

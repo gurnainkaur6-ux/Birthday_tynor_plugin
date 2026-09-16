@@ -1,0 +1,31 @@
+# Prefer index files when a directory is requested
+<IfModule mod_dir.c>
+    DirectoryIndex index.php index.html
+</IfModule>
+
+# Block access to dotfiles (.env, .git, etc.) but allow the directory index
+<FilesMatch "^\.(?!htaccess$)">
+    Require all denied
+</FilesMatch>
+
+# Never serve raw database dumps, SQL, env templates, markdown, lock/config files
+<FilesMatch "\.(sql|env|md|lock|log|bat|ps1|dist|ini|json)$">
+    Require all denied
+</FilesMatch>
+
+# Block direct web access to server-side-only source directories. These are
+# always reached via require/include, never requested directly by a browser.
+RedirectMatch 404 (?i)/(config|includes|src|database|scripts|vendor)/.*\.(php|sql|md|json|lock)$
+
+Options -Indexes
+ServerSignature Off
+
+# Friendly error pages (OPTIONAL). ErrorDocument needs a path relative to the
+# web root, which depends on where you deploy. To enable, UNCOMMENT the lines
+# below and change the leading "/tynor" to match your install folder (or use
+# just "/error.php..." if the app sits at the web root). Leaving them commented
+# uses the server's default error pages, which is safe. The app's own
+# permission-denied (403) page always renders regardless of this setting.
+#ErrorDocument 403 /tynor/error.php?code=403
+#ErrorDocument 404 /tynor/error.php?code=404
+#ErrorDocument 500 /tynor/error.php?code=500
