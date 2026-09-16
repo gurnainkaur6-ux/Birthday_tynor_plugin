@@ -1,0 +1,210 @@
+/* ============================================================================
+   theme.css — Central design system (restrained enterprise theme).
+   Loaded AFTER styles.css (via topbar.php) so it is authoritative.
+   Only the approved blue + neutral palette is used. No gradients, no emoji
+   colours, minimal shadows, borders over shadows, compact density.
+   ============================================================================ */
+
+:root {
+  /* Approved palette */
+  --brand-dark:   #215FB2;
+  --brand-primary:#2772CD;
+  --brand-medium: #3C81D4;
+  --brand-soft:   #588ED4;
+  --brand-muted:  #98B3D8;
+  --brand-border: #B3C8E3;
+
+  --surface-page:  #F5F7FA;
+  --surface-panel: #FFFFFF;
+
+  --text-primary:   #354153;
+  --text-secondary: #595A5F;
+  --text-inverse:   #FFFFFF;
+
+  /* Alpha helpers */
+  --brand-tint:   rgba(39,114,205,.08);
+  --brand-tint-2: rgba(39,114,205,.12);
+  --row-hover:    rgba(152,179,216,.16);
+  --border-soft:  rgba(179,200,227,.6);
+
+  /* Remap the LEGACY tokens used throughout styles.css so every existing
+     component adopts the restrained palette without editing each rule. */
+  --b9:#215FB2; --b8:#215FB2; --b7:#2772CD; --b6:#2772CD;
+  --b3:#98B3D8; --b1:var(--brand-tint); --b0:#F5F7FA; --w:#FFFFFF;
+  --g8:#354153; --g6:#595A5F; --g4:#8A93A3; --g2:#B3C8E3; --g1:#F5F7FA;
+  --ok:#2772CD; --err:#354153;
+  --grad-brand:#2772CD;          /* solid — neutralises gradient usages */
+  --rad:8px; --rad-s:6px;
+  --sh:0 1px 2px rgba(53,65,83,.08);
+  --sh-m:0 1px 2px rgba(53,65,83,.08);
+  --sh-l:0 4px 16px rgba(53,65,83,.12);
+  --sh-xs:0 1px 2px rgba(53,65,83,.06);
+  --ring:0 0 0 3px rgba(39,114,205,.28);
+  --nav-h:56px;
+  --side-w:232px;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────── */
+body{
+  font-family:"Segoe UI",Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  background:var(--surface-page);color:var(--text-primary);
+}
+
+/* Kill leftover gradients / decorative flourishes from styles.css */
+.hero-banner{display:none !important;}
+.action-card::before{display:none !important;}
+.bday-avatar{background:var(--brand-primary) !important;}
+.bar-fill,.progress-fill{background:var(--brand-primary) !important;}
+.auth-page{background:var(--brand-dark) !important;}
+.stat-card,.kpi{background:var(--surface-panel) !important;}
+.topbar{background:var(--brand-dark) !important;}
+
+/* Radius + shadow discipline */
+.panel,.stat-card,.chart-card,.chart-box,.action-card,.kpi,.bday-card,.table-wrap,.summary-item{
+  border-radius:8px !important;
+}
+.panel,.chart-card,.chart-box{box-shadow:none;border:1px solid var(--border-soft);}
+.stat-card{box-shadow:none;border:1px solid var(--border-soft);}
+
+/* ══ ENTERPRISE APP SHELL ══════════════════════════════════════════ */
+.appbar{
+  position:fixed;top:0;left:var(--side-w);right:0;height:var(--nav-h);z-index:80;
+  background:var(--surface-panel);border-bottom:1px solid var(--brand-border);
+  display:flex;align-items:center;gap:12px;padding:0 20px;
+}
+.appbar-title{font-size:14px;font-weight:600;color:var(--text-primary)}
+.appbar-spacer{flex:1}
+.appbar-actions{display:flex;align-items:center;gap:14px}
+.appbar-actions a{color:var(--text-secondary);display:inline-flex;align-items:center;gap:6px;font-size:13px;text-decoration:none}
+.appbar-actions a:hover{color:var(--brand-primary)}
+.appbar .lucide{width:17px;height:17px}
+
+.env-pill{font-size:11px;font-weight:700;letter-spacing:.06em;padding:.15rem .5rem;border-radius:4px;
+  background:var(--brand-tint);color:var(--brand-dark);border:1px solid var(--brand-border)}
+
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--side-w);z-index:90;
+  background:var(--surface-panel);border-right:1px solid var(--brand-border);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.sidebar-brand{height:var(--nav-h);display:flex;align-items:center;gap:9px;padding:0 18px;
+  font-weight:700;font-size:15px;color:var(--brand-dark);border-bottom:1px solid var(--border-soft);text-decoration:none}
+.sidebar-brand .lucide{width:20px;height:20px}
+.side-nav{padding:8px 0 24px}
+.side-group{padding:2px 0}
+.side-group-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--brand-muted);padding:12px 18px 4px}
+.side-link{display:flex;align-items:center;gap:11px;height:40px;padding:0 18px;
+  color:var(--text-primary);font-size:14px;text-decoration:none;border-left:3px solid transparent}
+.side-link:hover{background:var(--brand-tint)}
+.side-link.active{background:var(--brand-tint-2);color:var(--brand-dark);font-weight:600;border-left-color:var(--brand-primary)}
+.side-link .lucide{width:17px;height:17px;color:currentColor}
+
+/* Content offset so it sits beside the sidebar + under the app bar */
+.dashboard-content{
+  margin-left:var(--side-w) !important;max-width:none !important;
+  padding:calc(var(--nav-h) + 24px) 24px 40px !important;gap:24px;
+}
+
+/* Hamburger (mobile only) */
+.side-toggle{display:none;background:transparent;border:none;color:var(--text-secondary);cursor:pointer;padding:4px}
+.side-toggle .lucide{width:22px;height:22px}
+.side-backdrop{display:none;position:fixed;inset:0;background:rgba(53,65,83,.35);z-index:85}
+
+/* ── Page header ──────────────────────────────────────────────────── */
+.page-header h1{font-size:26px;font-weight:600;color:var(--text-primary)}
+.page-sub{font-size:14px;color:var(--text-secondary);margin-top:2px}
+
+/* ── Summary strip (compact metrics) ──────────────────────────────── */
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.summary-item{background:var(--surface-panel);border:1px solid var(--brand-border);border-radius:8px;
+  padding:16px 18px;min-height:84px;display:flex;flex-direction:column;justify-content:center}
+.summary-item .s-label{font-size:12px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:7px}
+.summary-item .s-label .lucide{width:15px;height:15px;color:var(--brand-muted)}
+.summary-item .s-value{font-size:24px;font-weight:600;color:var(--text-primary);margin-top:6px;line-height:1}
+.summary-item .s-hint{font-size:12px;color:var(--text-secondary);margin-top:3px}
+@media(max-width:1100px){.summary-strip{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Two-column operational layout ────────────────────────────────── */
+.ops-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+@media(max-width:1100px){.ops-grid{grid-template-columns:1fr}}
+
+/* ── Definition list (system status / key-values) ────────────────── */
+.def-list{display:flex;flex-direction:column}
+.def-list .def-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-soft);font-size:13px}
+.def-list .def-row:last-child{border-bottom:none}
+.def-list .def-k{color:var(--text-secondary)}
+.def-list .def-v{color:var(--text-primary);font-weight:600}
+
+/* ── Status labels (icon + text, not colour alone) ───────────────── */
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--text-primary)}
+.status .lucide{width:14px;height:14px;color:var(--brand-primary)}
+.status-muted{color:var(--text-secondary)}
+.status-muted .lucide{color:var(--brand-muted)}
+.status-strong{color:var(--brand-dark)}
+
+/* Neutralise the old colourful badges to palette-only */
+.badge{background:var(--brand-tint);color:var(--brand-dark);border:1px solid var(--border-soft);
+  box-shadow:none;font-weight:600;border-radius:999px}
+.badge-active{background:var(--brand-tint);color:var(--brand-dark)}
+.badge-inactive{background:rgba(53,65,83,.06);color:var(--text-secondary);border-color:var(--border-soft)}
+.badge-blue{background:var(--brand-tint);color:var(--brand-dark)}
+.badge-danger{background:rgba(53,65,83,.06);color:var(--text-primary)}
+.trend-pill,.trend-live{background:var(--brand-tint) !important;color:var(--brand-dark) !important}
+
+/* ── Buttons (restrained) ─────────────────────────────────────────── */
+.btn-primary{background:var(--brand-primary) !important;color:#fff !important;border:1px solid var(--brand-primary);
+  border-radius:6px;box-shadow:none !important;font-weight:600;transform:none !important}
+.btn-primary:hover{background:var(--brand-dark) !important;box-shadow:none !important}
+.btn-secondary{background:#fff;color:var(--brand-dark);border:1px solid var(--brand-muted);border-radius:6px;box-shadow:none}
+.btn-secondary:hover{background:var(--brand-tint);color:var(--brand-dark)}
+.btn-danger{background:#fff;color:var(--text-primary);border:1px solid var(--brand-border)}
+.btn-danger:hover{background:rgba(53,65,83,.06);color:var(--text-primary)}
+.btn-primary,.btn-secondary,.btn-danger{padding:.5rem 1rem}
+
+/* ── Tables (primary operational surface) ─────────────────────────── */
+.data-table{font-size:13.5px}
+.data-table th{background:var(--surface-page);color:var(--text-primary);font-size:12.5px;font-weight:600;
+  text-transform:none;letter-spacing:0;border-bottom:1px solid var(--brand-border)}
+.data-table td{border-bottom:1px solid var(--border-soft);color:var(--text-primary)}
+.data-table tbody tr:hover{background:var(--row-hover)}
+.table-wrap{border:1px solid var(--brand-border);box-shadow:none}
+
+/* ── Forms ────────────────────────────────────────────────────────── */
+input[type=text],input[type=email],input[type=password],input[type=date],select,textarea{
+  border:1px solid var(--brand-muted);border-radius:6px;font-size:14px;color:var(--text-primary)}
+input:focus,select:focus,textarea:focus{border-color:var(--brand-primary);box-shadow:var(--ring)}
+label{text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;color:var(--text-secondary)}
+
+/* ── Alerts (palette only) ────────────────────────────────────────── */
+.alert{border-radius:6px}
+.alert-success{background:var(--brand-tint);border:1px solid var(--brand-border);color:var(--brand-dark)}
+.alert-info{background:var(--brand-tint);border:1px solid var(--brand-border);color:var(--brand-dark)}
+.alert-error{background:rgba(53,65,83,.05);border:1px solid var(--brand-border);color:var(--text-primary)}
+
+/* ── Accessible focus everywhere ──────────────────────────────────── */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:none;box-shadow:var(--ring);border-radius:6px}
+
+/* ── Compact initials avatar (32px) ──────────────────────────────── */
+.mini-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;
+  justify-content:center;background:var(--brand-tint);color:var(--brand-dark);font-size:12px;font-weight:600;
+  border:1px solid var(--brand-border)}
+
+/* ── Icons: single monochrome library ────────────────────────────── */
+.lucide{stroke-width:1.9}
+
+/* ── Responsive shell ─────────────────────────────────────────────── */
+@media(max-width:1100px){
+  .appbar{left:0}
+  .sidebar{transform:translateX(-100%);transition:transform .18s ease;box-shadow:var(--sh-l)}
+  .sidebar.open{transform:translateX(0)}
+  .side-backdrop.open{display:block}
+  .dashboard-content{margin-left:0 !important}
+  .side-toggle{display:inline-flex;align-items:center}
+}
+@media(max-width:640px){
+  .dashboard-content{padding-left:16px !important;padding-right:16px !important}
+  .summary-strip{grid-template-columns:1fr 1fr}
+  .page-header h1{font-size:22px}
+}
